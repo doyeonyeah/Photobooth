@@ -30,14 +30,6 @@ h1 {
   }
 }
 
-video {
-  width: 240px;
-  height: 320px;
-  border: 2px solid #00ff7f;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
 button {
   display: block;
   margin: 20px auto;
@@ -56,27 +48,33 @@ button:hover {
   background: linear-gradient(135deg, #0090ff 0%, #5ad810 100%);
 }
 
-.thumbnail-wrapper {
-  position: relative;
-  margin: 5px;
-  width: 240px;
-  height: 320px;
-  overflow: hidden;
-  border: 2px solid #00ff7f;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Add box-shadow to thumbnail wrappers */
-}
-
-.thumbnails img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 
 .thumbnails {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+}
+
+video {
+  max-width: 100%; /* Adjust the video size based on the container */
+  border: 2px solid #00ff7f;
+  object-fit: contain; /* Change to contain for maintaining the original aspect ratio */
+  border-radius: 5px;
+}
+
+.thumbnail-wrapper {
+  position: relative;
+  margin: 5px;
+  width: 240px; /* Maintain the width */
+  overflow: hidden;
+  border: 2px solid #00ff7f;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.thumbnails img {
+  width: 100%;
+  height: auto; /* Change the height to auto for maintaining the original aspect ratio */
+  object-fit: contain; /* Change to contain for maintaining the original aspect ratio */
 }

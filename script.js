@@ -6,8 +6,9 @@ const thumbnails = document.getElementById("thumbnails");
 
 const constraints = {
   video: {
-    width: { exact: 240 },
-    height: { exact: 320 }
+    width: { ideal: 480 },
+    height: { ideal: 640 },
+
   }
 };
 
