@@ -73,6 +73,7 @@ downloadBtn.addEventListener("click", async () => {
 
       await new Promise((resolve) => {
         const tempImg = new Image();
+        tempImg.crossOrigin = "anonymous"; // Add this line
         tempImg.src = img.src;
         tempImg.onload = () => {
           const imgCanvas = document.createElement("canvas");
