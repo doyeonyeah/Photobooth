@@ -73,22 +73,23 @@ downloadBtn.addEventListener("click", async () => {
       const img = wrapper.querySelector("img");
 
       const loadImagePromise = new Promise((resolve) => {
-        const tempImg = new Image();
-        tempImg.crossOrigin = "anonymous";
-        tempImg.src = img.src;
-        tempImg.onload = () => {
-          const scaleFactor = 480 / tempImg.width;
-          const imgCanvas = document.createElement("canvas");
-          const imgCtx = imgCanvas.getContext("2d");
+  const tempImg = new Image();
+  tempImg.crossOrigin = "anonymous";
+  tempImg.src = img.src;
+  tempImg.onload = () => {
+    const scaleFactor = 480 / tempImg.width;
+    const imgCanvas = document.createElement("canvas");
+    const imgCtx = imgCanvas.getContext("2d");
 
-          imgCanvas.width = 480;
-          imgCanvas.height = tempImg.height * scaleFactor;
-          imgCtx.drawImage(tempImg, 0, 0, imgCanvas.width, imgCanvas.height);
+    imgCanvas.width = tempImg.width * scaleFactor;
+    imgCanvas.height = tempImg.height * scaleFactor;
+    imgCtx.drawImage(tempImg, 0, 0, imgCanvas.width, imgCanvas.height);
 
-          totalHeight += imgCanvas.height + spacing;
-          resolve(imgCanvas);
-        };
-      });
+    totalHeight += imgCanvas.height + spacing;
+    resolve(imgCanvas);
+  };
+});
+
 
       imagePromises.push(loadImagePromise);
     }
