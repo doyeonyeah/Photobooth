@@ -6,11 +6,10 @@ const thumbnails = document.getElementById("thumbnails");
 
 const constraints = {
   video: {
-    width: { ideal: 480 },
-
+    width: { ideal: 640 }, // Adjust the ideal width
+    height: { ideal: 480 }, // Adjust the ideal height
   }
 };
-
 
 let imgCounter = 0;
 
