@@ -101,9 +101,9 @@ downloadBtn.addEventListener("click", async () => {
 
   let yOffset = 0;
   loadedImages.forEach((imgCanvas) => {
-    ctx.drawImage(imgCanvas, 0, yOffset, imgCanvas.width, imgCanvas.height);
-    yOffset += imgCanvas.height + spacing;
-  });
+  ctx.drawImage(imgCanvas, 0, yOffset);
+  yOffset += imgCanvas.height + spacing;
+});
 
   const mergedImage = mergedCanvas.toDataURL("image/png");
   const link = document.createElement("a");
