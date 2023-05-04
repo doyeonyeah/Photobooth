@@ -56,13 +56,14 @@ captureBtn.addEventListener("click", captureImage);
 
 const downloadBtn = document.getElementById("download");
 
+
 downloadBtn.addEventListener("click", async () => {
   const mergedCanvas = document.createElement("canvas");
   const ctx = mergedCanvas.getContext("2d");
 
   mergedCanvas.width = 480;
   let totalHeight = 0;
-  const spacing = 10;
+  const spacing = 10; // Add spacing between images
 
   const imagePromises = [];
 
@@ -76,12 +77,13 @@ downloadBtn.addEventListener("click", async () => {
         tempImg.crossOrigin = "anonymous";
         tempImg.src = img.src;
         tempImg.onload = () => {
+          const scaleFactor = 480 / tempImg.width;
           const imgCanvas = document.createElement("canvas");
           const imgCtx = imgCanvas.getContext("2d");
 
           imgCanvas.width = 480;
-          imgCanvas.height = (tempImg.height / tempImg.width) * 480;
-          imgCtx.drawImage(tempImg, 0, 0, 480, imgCanvas.height);
+          imgCanvas.height = tempImg.height * scaleFactor;
+          imgCtx.drawImage(tempImg, 0, 0, imgCanvas.width, imgCanvas.height);
 
           totalHeight += imgCanvas.height + spacing;
           resolve(imgCanvas);
@@ -94,11 +96,11 @@ downloadBtn.addEventListener("click", async () => {
 
   const loadedImages = await Promise.all(imagePromises);
 
-  mergedCanvas.height = totalHeight - spacing;
+  mergedCanvas.height = totalHeight - spacing; // Subtract the last spacing
 
   let yOffset = 0;
   loadedImages.forEach((imgCanvas) => {
-    ctx.drawImage(imgCanvas, 0, yOffset, 240, imgCanvas.height);
+    ctx.drawImage(imgCanvas, 0, yOffset, imgCanvas.width, imgCanvas.height);
     yOffset += imgCanvas.height + spacing;
   });
 
@@ -108,5 +110,6 @@ downloadBtn.addEventListener("click", async () => {
   link.download = "merged_image.png";
   link.click();
 });
+
 
 initCamera();
