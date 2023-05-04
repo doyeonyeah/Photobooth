@@ -62,34 +62,46 @@ downloadBtn.addEventListener("click", async () => {
   const ctx = mergedCanvas.getContext("2d");
 
   mergedCanvas.width = 240;
-  mergedCanvas.height = 1280;
+  let totalHeight = 0;
+  const spacing = 10; // Add spacing between images
 
-  let yOffset = 0;
+  const imagePromises = [];
 
   for (let i = 0; i < 4; i++) {
     const wrapper = document.getElementById(`wrapper${i}`);
     if (wrapper) {
       const img = wrapper.querySelector("img");
 
-      await new Promise((resolve) => {
+      const loadImagePromise = new Promise((resolve) => {
         const tempImg = new Image();
-        tempImg.crossOrigin = "anonymous"; // Add this line
+        tempImg.crossOrigin = "anonymous";
         tempImg.src = img.src;
         tempImg.onload = () => {
           const imgCanvas = document.createElement("canvas");
           const imgCtx = imgCanvas.getContext("2d");
 
-          imgCanvas.width = tempImg.width;
-          imgCanvas.height = tempImg.height;
-          imgCtx.drawImage(tempImg, 0, 0, tempImg.width, tempImg.height);
+          imgCanvas.width = 240;
+          imgCanvas.height = (tempImg.height / tempImg.width) * 240;
+          imgCtx.drawImage(tempImg, 0, 0, 240, imgCanvas.height);
 
-          ctx.drawImage(imgCanvas, 0, yOffset, 240, 320);
-          yOffset += 320;
-          resolve();
+          totalHeight += imgCanvas.height + spacing;
+          resolve(imgCanvas);
         };
       });
+
+      imagePromises.push(loadImagePromise);
     }
   }
+
+  const loadedImages = await Promise.all(imagePromises);
+
+  mergedCanvas.height = totalHeight - spacing; // Subtract the last spacing
+
+  let yOffset = 0;
+  loadedImages.forEach((imgCanvas) => {
+    ctx.drawImage(imgCanvas, 0, yOffset, 240, imgCanvas.height);
+    yOffset += imgCanvas.height + spacing;
+  });
 
   const mergedImage = mergedCanvas.toDataURL("image/png");
   const link = document.createElement("a");
@@ -97,6 +109,7 @@ downloadBtn.addEventListener("click", async () => {
   link.download = "merged_image.png";
   link.click();
 });
+
 
 
 
