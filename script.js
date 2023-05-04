@@ -6,8 +6,8 @@ const thumbnails = document.getElementById("thumbnails");
 
 const constraints = {
   video: {
-    width: { ideal: 640 }, // Adjust the ideal width
-    height: { ideal: 480 }, // Adjust the ideal height
+    width: { ideal: 640 },
+    height: { ideal: 480 },
   }
 };
 
@@ -17,12 +17,11 @@ async function initCamera() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
     video.srcObject = stream;
-    video.play(); // Add this line to start the video automatically
+    video.play();
   } catch (err) {
     console.error("Error accessing the camera", err);
   }
 }
-
 
 function captureImage() {
   canvas.width = video.videoWidth;
@@ -35,6 +34,7 @@ function captureImage() {
   if (imgCounter >= 4) {
     imgCounter = 0;
   }
+
   let existingWrapper = thumbnails.querySelector(`#wrapper${imgCounter}`);
   if (existingWrapper) {
     let existingImg = existingWrapper.querySelector("img");
@@ -54,16 +54,15 @@ function captureImage() {
 
 captureBtn.addEventListener("click", captureImage);
 
-
 const downloadBtn = document.getElementById("download");
 
 downloadBtn.addEventListener("click", async () => {
   const mergedCanvas = document.createElement("canvas");
   const ctx = mergedCanvas.getContext("2d");
 
-  mergedCanvas.width = 240;
+  mergedCanvas.width = 480;
   let totalHeight = 0;
-  const spacing = 10; // Add spacing between images
+  const spacing = 10;
 
   const imagePromises = [];
 
@@ -80,9 +79,9 @@ downloadBtn.addEventListener("click", async () => {
           const imgCanvas = document.createElement("canvas");
           const imgCtx = imgCanvas.getContext("2d");
 
-          imgCanvas.width = 240;
-          imgCanvas.height = (tempImg.height / tempImg.width) * 240;
-          imgCtx.drawImage(tempImg, 0, 0, 240, imgCanvas.height);
+          imgCanvas.width = 480;
+          imgCanvas.height = (tempImg.height / tempImg.width) * 480;
+          imgCtx.drawImage(tempImg, 0, 0, 480, imgCanvas.height);
 
           totalHeight += imgCanvas.height + spacing;
           resolve(imgCanvas);
@@ -95,7 +94,7 @@ downloadBtn.addEventListener("click", async () => {
 
   const loadedImages = await Promise.all(imagePromises);
 
-  mergedCanvas.height = totalHeight - spacing; // Subtract the last spacing
+  mergedCanvas.height = totalHeight - spacing;
 
   let yOffset = 0;
   loadedImages.forEach((imgCanvas) => {
@@ -109,8 +108,5 @@ downloadBtn.addEventListener("click", async () => {
   link.download = "merged_image.png";
   link.click();
 });
-
-
-
 
 initCamera();
