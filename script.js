@@ -7,10 +7,10 @@ const thumbnails = document.getElementById("thumbnails");
 const constraints = {
   video: {
     width: { ideal: 480 },
-    height: { ideal: 640 },
 
   }
 };
+
 
 let imgCounter = 0;
 
@@ -18,10 +18,12 @@ async function initCamera() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
     video.srcObject = stream;
+    video.play(); // Add this line to start the video automatically
   } catch (err) {
     console.error("Error accessing the camera", err);
   }
 }
+
 
 function captureImage() {
   canvas.width = video.videoWidth;
