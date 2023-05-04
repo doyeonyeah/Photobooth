@@ -54,4 +54,49 @@ function captureImage() {
 
 captureBtn.addEventListener("click", captureImage);
 
+
+const downloadBtn = document.getElementById("download");
+
+downloadBtn.addEventListener("click", async () => {
+  const mergedCanvas = document.createElement("canvas");
+  const ctx = mergedCanvas.getContext("2d");
+
+  mergedCanvas.width = 240;
+  mergedCanvas.height = 1280;
+
+  let yOffset = 0;
+
+  for (let i = 0; i < 4; i++) {
+    const wrapper = document.getElementById(`wrapper${i}`);
+    if (wrapper) {
+      const img = wrapper.querySelector("img");
+
+      await new Promise((resolve) => {
+        const tempImg = new Image();
+        tempImg.src = img.src;
+        tempImg.onload = () => {
+          const imgCanvas = document.createElement("canvas");
+          const imgCtx = imgCanvas.getContext("2d");
+
+          imgCanvas.width = tempImg.width;
+          imgCanvas.height = tempImg.height;
+          imgCtx.drawImage(tempImg, 0, 0, tempImg.width, tempImg.height);
+
+          ctx.drawImage(imgCanvas, 0, yOffset, 240, 320);
+          yOffset += 320;
+          resolve();
+        };
+      });
+    }
+  }
+
+  const mergedImage = mergedCanvas.toDataURL("image/png");
+  const link = document.createElement("a");
+  link.href = mergedImage;
+  link.download = "merged_image.png";
+  link.click();
+});
+
+
+
 initCamera();

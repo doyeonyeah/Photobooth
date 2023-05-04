@@ -78,3 +78,28 @@ video {
   height: auto; /* Change the height to auto for maintaining the original aspect ratio */
   object-fit: contain; /* Change to contain for maintaining the original aspect ratio */
 }
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 5px #999;
+  margin-top: 10px;
+}
+
+.btn:hover { background-color: #3e8e41 }
+
+.btn:active {
+  background-color: #3e8e41;
+  box-shadow: 0 2px #666;
+  transform: translateY(2px);
+}
+
